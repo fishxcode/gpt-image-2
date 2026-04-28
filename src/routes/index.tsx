@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
-import { Sparkles, Loader2, Wand2, AlertCircle, ImageIcon, Zap } from "lucide-react";
+import { Sparkles, Loader2, Wand2, AlertCircle, ImageIcon, Zap, ExternalLink, KeyRound } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -79,6 +79,16 @@ function HomePage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href="https://fishxcode.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent/20 hover:border-accent/60 transition-colors text-xs font-medium"
+            >
+              <KeyRound className="h-3 w-3" />
+              获取 API Key
+              <ExternalLink className="h-3 w-3 opacity-60" />
+            </a>
             <StatusPill ok={configured} />
             <SettingsDialog />
           </div>
@@ -193,19 +203,58 @@ function HomePage() {
           )}
 
           {!loading && !result && !error && (
-            <div className="text-center py-16 text-muted-foreground">
-              <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-card/40 border border-border/40 mb-3">
-                <ImageIcon className="h-6 w-6 opacity-50" />
-              </div>
-              <p className="text-sm">输入 prompt 开始你的第一次生成</p>
+            <div className="text-center py-14">
+              {!configured ? (
+                <div className="glass-panel rounded-3xl p-8 max-w-xl mx-auto">
+                  <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/30 mb-4">
+                    <KeyRound className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">还没有 API Key？</h3>
+                  <p className="text-sm text-muted-foreground mb-5">
+                    本工具兼容 <span className="font-mono-tech text-foreground">fishxcode.com</span> 的 gpt-image-2 接口，
+                    <br className="hidden sm:block" />
+                    前往获取 Key 后填入设置即可开始生成。
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    <a
+                      href="https://fishxcode.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium text-sm hover:opacity-90 shadow-lg shadow-primary/30 transition-opacity"
+                    >
+                      前往 fishxcode.com
+                      <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-muted-foreground">
+                  <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-card/40 border border-border/40 mb-3">
+                    <ImageIcon className="h-6 w-6 opacity-50" />
+                  </div>
+                  <p className="text-sm">输入 prompt 开始你的第一次生成</p>
+                </div>
+              )}
             </div>
           )}
         </div>
       </main>
 
       <footer className="relative z-10 border-t border-border/30 mt-10">
-        <div className="max-w-6xl mx-auto px-6 py-5 text-center text-xs text-muted-foreground font-mono-tech">
-          GPT-IMAGE-2 · CLIENT-SIDE TOOL · YOUR KEY NEVER LEAVES THE BROWSER
+        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="text-[10px] text-muted-foreground font-mono-tech uppercase tracking-wider">
+            CLIENT-SIDE TOOL · YOUR KEY NEVER LEAVES THE BROWSER
+          </div>
+          <a
+            href="https://fishxcode.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <span>API powered by</span>
+            <span className="font-mono-tech font-semibold text-gradient">fishxcode.com</span>
+            <ExternalLink className="h-3 w-3 opacity-50 group-hover:opacity-100" />
+          </a>
         </div>
       </footer>
     </div>
