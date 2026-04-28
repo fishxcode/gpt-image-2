@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
-import { Sparkles, Loader2, Wand2, AlertCircle, ImageIcon, Zap } from "lucide-react";
+import { Sparkles, Loader2, Wand2, AlertCircle, ImageIcon, Zap, ExternalLink, KeyRound } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -79,6 +79,16 @@ function HomePage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href="https://fishxcode.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent/20 hover:border-accent/60 transition-colors text-xs font-medium"
+            >
+              <KeyRound className="h-3 w-3" />
+              获取 API Key
+              <ExternalLink className="h-3 w-3 opacity-60" />
+            </a>
             <StatusPill ok={configured} />
             <SettingsDialog />
           </div>
