@@ -33,11 +33,13 @@ export const Route = createRootRoute({
       { title: "GPT-Image-2 Tools — 图像生成工具" },
       { name: "description", content: "调用 gpt-image-2 接口生成与解析图像，支持自定义 API 端点、参数与分享链接。" },
       { name: "author", content: "GPT-Image-2 Tools" },
-      { property: "og:title", content: "GPT-Image-2 Tools" },
-      { property: "og:description", content: "强大、简洁的 gpt-image-2 图像生成与解析工具。" },
+      { property: "og:title", content: "GPT-Image-2 Tools — 图像生成工具" },
+      { property: "og:description", content: "调用 gpt-image-2 接口生成与解析图像，支持自定义 API 端点、参数与分享链接。" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "GPT-Image-2 Tools — 图像生成工具" },
+      { name: "twitter:description", content: "调用 gpt-image-2 接口生成与解析图像，支持自定义 API 端点、参数与分享链接。" },
     ],
     links: [
       {
