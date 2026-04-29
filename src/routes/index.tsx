@@ -1,6 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
-import { Sparkles, Loader2, Wand2, AlertCircle, ImageIcon, Zap, ExternalLink, KeyRound } from "lucide-react";
+import {
+  Sparkles,
+  Loader2,
+  Wand2,
+  AlertCircle,
+  ImageIcon,
+  Zap,
+  ExternalLink,
+  KeyRound,
+} from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -65,7 +74,9 @@ function HomePage() {
     try {
       const r = await generateImages(config, prompt);
       setResult(r);
-      toast.success(t("toast.success", { n: r.images.length, s: (r.durationMs / 1000).toFixed(1) }));
+      toast.success(
+        t("toast.success", { n: r.images.length, s: (r.durationMs / 1000).toFixed(1) }),
+      );
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setError(msg);
@@ -85,12 +96,16 @@ function HomePage() {
         <div className="text-center mb-10 md:mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-card/40 backdrop-blur mb-5">
             <Zap className="h-3 w-3 text-primary" />
-            <span className="text-xs text-muted-foreground font-mono-tech">{t("app.endpoint")}</span>
+            <span className="text-xs text-muted-foreground font-mono-tech">
+              {t("app.endpoint")}
+            </span>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
-            {t("hero.title.a")}<span className="text-gradient"> {t("hero.title.b")} </span>
+            {t("hero.title.a")}
+            <span className="text-gradient"> {t("hero.title.b")} </span>
             <br className="md:hidden" />
-            {t("hero.title.c")}<span className="text-gradient"> {t("hero.title.d")} </span>
+            {t("hero.title.c")}
+            <span className="text-gradient"> {t("hero.title.d")} </span>
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
             {t("hero.desc")}
@@ -137,9 +152,13 @@ function HomePage() {
               className="ml-auto bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 shadow-lg shadow-primary/30 px-6"
             >
               {loading ? (
-                <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> {t("panel.generating")}</>
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" /> {t("panel.generating")}
+                </>
               ) : (
-                <><Sparkles className="h-4 w-4 mr-2" /> {t("panel.generate")}</>
+                <>
+                  <Sparkles className="h-4 w-4 mr-2" /> {t("panel.generate")}
+                </>
               )}
             </Button>
           </div>
@@ -151,7 +170,9 @@ function HomePage() {
               <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-destructive">{t("result.failed")}</p>
-                <p className="text-xs text-muted-foreground mt-1 font-mono-tech break-all">{error}</p>
+                <p className="text-xs text-muted-foreground mt-1 font-mono-tech break-all">
+                  {error}
+                </p>
               </div>
             </div>
           )}
@@ -159,7 +180,10 @@ function HomePage() {
           {loading && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {Array.from({ length: config.n }).map((_, i) => (
-                <div key={i} className="aspect-square rounded-2xl glass-panel animate-pulse flex items-center justify-center">
+                <div
+                  key={i}
+                  className="aspect-square rounded-2xl glass-panel animate-pulse flex items-center justify-center"
+                >
                   <Loader2 className="h-6 w-6 text-primary/60 animate-spin" />
                 </div>
               ))}
@@ -173,7 +197,10 @@ function HomePage() {
                   <ImageIcon className="h-4 w-4 text-primary" />
                   <h3 className="text-sm font-medium">{t("result.title")}</h3>
                   <span className="font-mono-tech text-xs text-muted-foreground">
-                    {t("result.summary", { n: result.images.length, s: (result.durationMs / 1000).toFixed(2) })}
+                    {t("result.summary", {
+                      n: result.images.length,
+                      s: (result.durationMs / 1000).toFixed(2),
+                    })}
                   </span>
                 </div>
               </div>
@@ -223,4 +250,3 @@ function HomePage() {
     </div>
   );
 }
-

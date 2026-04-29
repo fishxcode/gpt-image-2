@@ -18,7 +18,10 @@ Sitemap: ${SITE}/api/sitemap.xml
 
 const handler = () =>
   new Response(body, {
-    headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
+    },
   });
 
 export const Route = createFileRoute("/robots.txt")({

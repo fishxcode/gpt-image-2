@@ -11,7 +11,10 @@ export function SiteHeader() {
   const configured = !!config.apiKey && !!config.apiUrl;
   const { pathname } = useLocation();
 
-  const navItems: Array<{ to: "/" | "/prompts" | "/gallery"; key: "nav.home" | "nav.prompts" | "nav.gallery" }> = [
+  const navItems: Array<{
+    to: "/" | "/prompts" | "/gallery";
+    key: "nav.home" | "nav.prompts" | "nav.gallery";
+  }> = [
     { to: "/", key: "nav.home" },
     { to: "/prompts", key: "nav.prompts" },
     { to: "/gallery", key: "nav.gallery" },
@@ -65,7 +68,11 @@ export function SiteHeader() {
             {t("nav.getKey")}
             <ExternalLink className="h-3 w-3 opacity-60" />
           </a>
-          <StatusPill ok={configured} okLabel={t("status.connected")} offLabel={t("status.notConfigured")} />
+          <StatusPill
+            ok={configured}
+            okLabel={t("status.connected")}
+            offLabel={t("status.notConfigured")}
+          />
           <LangSwitch />
           <SettingsDialog />
         </div>
@@ -98,10 +105,14 @@ function StatusPill({ ok, okLabel, offLabel }: { ok: boolean; okLabel: string; o
   return (
     <div
       className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] font-mono-tech uppercase tracking-wider ${
-        ok ? "border-primary/40 bg-primary/10 text-primary" : "border-destructive/40 bg-destructive/10 text-destructive"
+        ok
+          ? "border-primary/40 bg-primary/10 text-primary"
+          : "border-destructive/40 bg-destructive/10 text-destructive"
       }`}
     >
-      <span className={`h-1.5 w-1.5 rounded-full ${ok ? "bg-primary" : "bg-destructive"} animate-pulse`} />
+      <span
+        className={`h-1.5 w-1.5 rounded-full ${ok ? "bg-primary" : "bg-destructive"} animate-pulse`}
+      />
       {ok ? okLabel : offLabel}
     </div>
   );

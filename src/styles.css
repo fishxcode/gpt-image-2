@@ -160,11 +160,7 @@
 
 @layer utilities {
   .glass-panel {
-    background: linear-gradient(
-      135deg,
-      oklch(0.25 0.03 270 / 0.65),
-      oklch(0.18 0.025 270 / 0.55)
-    );
+    background: linear-gradient(135deg, oklch(0.25 0.03 270 / 0.65), oklch(0.18 0.025 270 / 0.55));
     backdrop-filter: blur(20px) saturate(140%);
     border: 1px solid oklch(0.5 0.05 260 / 0.18);
     box-shadow:

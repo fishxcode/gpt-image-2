@@ -34,7 +34,15 @@ export const Route = createFileRoute("/prompts")({
   component: PromptsPage,
 });
 
-const ALL_CATS: (PromptCategory | "all")[] = ["all", "portrait", "scene", "product", "art", "design", "anime"];
+const ALL_CATS: (PromptCategory | "all")[] = [
+  "all",
+  "portrait",
+  "scene",
+  "product",
+  "art",
+  "design",
+  "anime",
+];
 
 function PromptsPage() {
   const { t, lang } = useI18n();
@@ -55,7 +63,7 @@ function PromptsPage() {
     });
   }, [cat, q, lang]);
 
-  const usePrompt = (prompt: string) => {
+  const applyPrompt = (prompt: string) => {
     navigate({ to: "/", search: { prompt } as never });
   };
   const copy = async (text: string) => {
@@ -73,7 +81,9 @@ function PromptsPage() {
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
             <span className="text-gradient">{t("prompts.title")}</span>
           </h2>
-          <p className="mt-3 text-muted-foreground max-w-xl mx-auto text-sm md:text-base">{t("prompts.desc")}</p>
+          <p className="mt-3 text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
+            {t("prompts.desc")}
+          </p>
         </div>
 
         <div className="glass-panel rounded-2xl p-4 mb-6 flex flex-col md:flex-row gap-3 md:items-center">
@@ -110,27 +120,44 @@ function PromptsPage() {
             {list.map((p) => {
               const c = p[lang];
               return (
-                <article key={p.id} className="glass-panel rounded-2xl p-5 flex flex-col gap-3 hover:glow-primary transition-shadow">
+                <article
+                  key={p.id}
+                  className="glass-panel rounded-2xl p-5 flex flex-col gap-3 hover:glow-primary transition-shadow"
+                >
                   <header className="flex items-start justify-between gap-2">
                     <h3 className="font-semibold text-base leading-snug">{c.title}</h3>
                     <span className="text-[10px] uppercase font-mono-tech px-2 py-0.5 rounded-full border border-accent/40 bg-accent/10 text-accent">
                       {CATEGORY_LABELS[p.category][lang]}
                     </span>
                   </header>
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-4">{c.prompt}</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-4">
+                    {c.prompt}
+                  </p>
                   <div className="flex flex-wrap gap-1">
                     {c.tags.map((tag) => (
-                      <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full bg-card/60 border border-border/40 text-muted-foreground">
+                      <span
+                        key={tag}
+                        className="text-[10px] px-2 py-0.5 rounded-full bg-card/60 border border-border/40 text-muted-foreground"
+                      >
                         #{tag}
                       </span>
                     ))}
                   </div>
                   <div className="flex gap-2 mt-auto pt-2">
-                    <Button size="sm" onClick={() => usePrompt(c.prompt)} className="flex-1 bg-gradient-to-r from-primary to-accent text-primary-foreground">
+                    <Button
+                      size="sm"
+                      onClick={() => applyPrompt(c.prompt)}
+                      className="flex-1 bg-gradient-to-r from-primary to-accent text-primary-foreground"
+                    >
                       <Wand2 className="h-3.5 w-3.5 mr-1.5" />
                       {t("prompts.use")}
                     </Button>
-                    <Button size="sm" variant="outline" onClick={() => copy(c.prompt)} className="border-border/60">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => copy(c.prompt)}
+                      className="border-border/60"
+                    >
                       <Copy className="h-3.5 w-3.5" />
                     </Button>
                   </div>

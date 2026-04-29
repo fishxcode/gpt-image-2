@@ -12,10 +12,7 @@ export type GenerationResult = {
   durationMs: number;
 };
 
-export async function generateImages(
-  config: GenConfig,
-  prompt: string,
-): Promise<GenerationResult> {
+export async function generateImages(config: GenConfig, prompt: string): Promise<GenerationResult> {
   if (!config.apiUrl) throw new Error("API URL 未配置");
   if (!config.apiKey) throw new Error("API Key 未配置");
   if (!prompt.trim()) throw new Error("Prompt 不能为空");

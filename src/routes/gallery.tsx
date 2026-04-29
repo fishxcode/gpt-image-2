@@ -39,7 +39,7 @@ function GalleryPage() {
   const navigate = useNavigate();
   const [active, setActive] = useState<string | null>(null);
 
-  const usePrompt = (prompt: string) => {
+  const applyPrompt = (prompt: string) => {
     navigate({ to: "/", search: { prompt } as never });
     toast.success(t("prompts.copied"));
   };
@@ -58,14 +58,19 @@ function GalleryPage() {
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight">
             <span className="text-gradient">{t("gallery.title")}</span>
           </h2>
-          <p className="mt-3 text-muted-foreground max-w-xl mx-auto text-sm md:text-base">{t("gallery.desc")}</p>
+          <p className="mt-3 text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
+            {t("gallery.desc")}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {GALLERY.map((g) => {
             const c = g[lang];
             return (
-              <article key={g.id} className="glass-panel rounded-2xl overflow-hidden group flex flex-col">
+              <article
+                key={g.id}
+                className="glass-panel rounded-2xl overflow-hidden group flex flex-col"
+              >
                 <Dialog open={active === g.id} onOpenChange={(o) => setActive(o ? g.id : null)}>
                   <DialogTrigger asChild>
                     <button className="relative aspect-[4/3] overflow-hidden bg-background/40">
@@ -96,11 +101,20 @@ function GalleryPage() {
                   </div>
                   <p className="text-xs text-muted-foreground line-clamp-3 flex-1">{c.prompt}</p>
                   <div className="flex gap-2 pt-1">
-                    <Button size="sm" onClick={() => usePrompt(c.prompt)} className="flex-1 bg-gradient-to-r from-primary to-accent text-primary-foreground">
+                    <Button
+                      size="sm"
+                      onClick={() => applyPrompt(c.prompt)}
+                      className="flex-1 bg-gradient-to-r from-primary to-accent text-primary-foreground"
+                    >
                       <Wand2 className="h-3.5 w-3.5 mr-1.5" />
                       {t("gallery.useThis")}
                     </Button>
-                    <Button size="sm" variant="outline" onClick={() => copy(c.prompt)} className="border-border/60">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => copy(c.prompt)}
+                      className="border-border/60"
+                    >
                       <Copy className="h-3.5 w-3.5" />
                     </Button>
                   </div>

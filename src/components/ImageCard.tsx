@@ -25,12 +25,20 @@ export function ImageCard({ image, index }: { image: ImageItem; index: number })
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           <div className="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="font-mono-tech text-xs text-white/80">#{String(index + 1).padStart(2, "0")}</span>
+            <span className="font-mono-tech text-xs text-white/80">
+              #{String(index + 1).padStart(2, "0")}
+            </span>
             <div className="flex gap-1.5">
-              <button onClick={() => setOpen(true)} className="p-2 rounded-lg bg-white/10 backdrop-blur hover:bg-white/20 text-white">
+              <button
+                onClick={() => setOpen(true)}
+                className="p-2 rounded-lg bg-white/10 backdrop-blur hover:bg-white/20 text-white"
+              >
                 <Maximize2 className="h-3.5 w-3.5" />
               </button>
-              <button onClick={download} className="p-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90">
+              <button
+                onClick={download}
+                className="p-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90"
+              >
                 <Download className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -40,7 +48,11 @@ export function ImageCard({ image, index }: { image: ImageItem; index: number })
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-[95vw] max-h-[95vh] p-2 bg-background/95 border-border/40">
-          <img src={image.src} alt={`preview-${index}`} className="max-h-[90vh] w-auto mx-auto rounded-lg" />
+          <img
+            src={image.src}
+            alt={`preview-${index}`}
+            className="max-h-[90vh] w-auto mx-auto rounded-lg"
+          />
         </DialogContent>
       </Dialog>
     </>

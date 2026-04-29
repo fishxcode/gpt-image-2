@@ -50,7 +50,11 @@ export const Route = createRootRoute({
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: TITLE },
       { name: "description", content: DESC },
-      { name: "keywords", content: "gpt-image-2, image generation, AI image, fishxcode, OpenAI image, 图像生成, 文生图, prompt 广场, 素材广场" },
+      {
+        name: "keywords",
+        content:
+          "gpt-image-2, GPT-Image-2 Tools, AI image generation, text to image, image playground, prompt plaza, reusable prompts, fishxcode, AI 图像生成, 文生图, 图像生成工具, Prompt 广场, 素材广场",
+      },
       { name: "author", content: "fishxcode.com" },
       { name: "robots", content: "index,follow,max-image-preview:large" },
       { name: "theme-color", content: "#0b0f1a" },
@@ -83,13 +87,21 @@ export const Route = createRootRoute({
         { rel: "alternate", hrefLang: "zh-CN", href: SITE + "/?lang=zh" },
         { rel: "alternate", hrefLang: "en", href: SITE + "/?lang=en" },
         { rel: "alternate", hrefLang: "x-default", href: SITE + "/" },
-        { rel: "alternate", type: "application/rss+xml", title: "GPT-Image-2 Tools RSS (zh)", href: SITE + "/api/rss.xml?lang=zh" },
-        { rel: "alternate", type: "application/rss+xml", title: "GPT-Image-2 Tools RSS (en)", href: SITE + "/api/rss.xml?lang=en" },
+        {
+          rel: "alternate",
+          type: "application/rss+xml",
+          title: "GPT-Image-2 Tools RSS (zh)",
+          href: SITE + "/api/rss.xml?lang=zh",
+        },
+        {
+          rel: "alternate",
+          type: "application/rss+xml",
+          title: "GPT-Image-2 Tools RSS (en)",
+          href: SITE + "/api/rss.xml?lang=en",
+        },
         { rel: "sitemap", type: "application/xml", href: SITE + "/sitemap.xml" },
       ],
-      scripts: [
-        { type: "application/ld+json", children: JSON.stringify(JSON_LD) },
-      ],
+      scripts: [{ type: "application/ld+json", children: JSON.stringify(JSON_LD) }],
     };
   },
   shellComponent: RootShell,

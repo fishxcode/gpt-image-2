@@ -75,8 +75,7 @@ export const PROMPTS: PromptItem[] = [
     recommendedSize: "1536x1024",
     zh: {
       title: "宫崎骏风格场景",
-      prompt:
-        "宫崎骏风格手绘场景，山间小屋，晨雾缭绕，水彩质感，柔和暖色调，治愈系，远处有飞鸟",
+      prompt: "宫崎骏风格手绘场景，山间小屋，晨雾缭绕，水彩质感，柔和暖色调，治愈系，远处有飞鸟",
       tags: ["宫崎骏", "动漫", "治愈"],
     },
     en: {

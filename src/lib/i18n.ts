@@ -26,7 +26,8 @@ const dict = {
     "result.summary": "{n} 张 · {s}s",
     "result.failed": "请求失败",
     "empty.noKeyTitle": "还没有 API Key？",
-    "empty.noKeyDesc": "本工具兼容 fishxcode.com 的 gpt-image-2 接口，前往获取 Key 后填入设置即可开始生成。",
+    "empty.noKeyDesc":
+      "本工具兼容 fishxcode.com 的 gpt-image-2 接口，前往获取 Key 后填入设置即可开始生成。",
     "empty.goFishx": "前往 fishxcode.com",
     "empty.firstHint": "输入 prompt 开始你的第一次生成",
     "footer.notice": "客户端工具 · 你的 Key 永远不会离开浏览器",
@@ -80,7 +81,8 @@ const dict = {
     "hero.title.b": "words",
     "hero.title.c": "into",
     "hero.title.d": "images",
-    "hero.desc": "Connect your own gpt-image-2 endpoint to call, parse, and download. All settings stay in your browser.",
+    "hero.desc":
+      "Connect your own gpt-image-2 endpoint to call, parse, and download. All settings stay in your browser.",
     "panel.prompt": "Prompt",
     "panel.placeholder": "Describe the image you want to generate...",
     "panel.chars": "{n} chars",
@@ -90,7 +92,8 @@ const dict = {
     "result.summary": "{n} images · {s}s",
     "result.failed": "Request failed",
     "empty.noKeyTitle": "No API Key yet?",
-    "empty.noKeyDesc": "This tool is compatible with the gpt-image-2 endpoint on fishxcode.com. Grab a key and paste it into Settings to start.",
+    "empty.noKeyDesc":
+      "This tool is compatible with the gpt-image-2 endpoint on fishxcode.com. Grab a key and paste it into Settings to start.",
     "empty.goFishx": "Go to fishxcode.com",
     "empty.firstHint": "Enter a prompt to run your first generation",
     "footer.notice": "CLIENT-SIDE TOOL · YOUR KEY NEVER LEAVES THE BROWSER",
@@ -101,7 +104,8 @@ const dict = {
     "toast.reset": "Restored to defaults",
     "toast.shareCopied": "Share link copied",
     "settings.title": "Settings",
-    "settings.desc": "API endpoint, key and generation parameters. Stored locally; can be overridden via URL params.",
+    "settings.desc":
+      "API endpoint, key and generation parameters. Stored locally; can be overridden via URL params.",
     "settings.section.api": "API",
     "settings.section.params": "Parameters",
     "settings.field.apiUrl": "API URL",
@@ -192,7 +196,7 @@ export function useI18n() {
 
   const t = useCallback(
     (k: TKey, vars?: Record<string, string | number>) => format(dict[lang][k] ?? k, vars),
-    [lang]
+    [lang],
   );
 
   const change = useCallback((l: Lang) => {

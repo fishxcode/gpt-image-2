@@ -1,5 +1,23 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "gpt-image-2-tools",
+  "description": "GPT-Image-2 online AI image generation playground with custom API keys, prompt plaza, reusable gallery examples, and bilingual SEO routes.",
+  "license": "MIT",
+  "homepage": "https://gpt-image-2.fishxcode.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fishxcode/gpt-image-2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fishxcode/gpt-image-2/issues"
+  },
+  "keywords": [
+    "gpt-image-2",
+    "ai-image-generation",
+    "text-to-image",
+    "image-playground",
+    "prompt-gallery",
+    "fishxcode"
+  ],
   "private": true,
   "sideEffects": false,
   "type": "module",

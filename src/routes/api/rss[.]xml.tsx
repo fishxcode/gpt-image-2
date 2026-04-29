@@ -29,29 +29,53 @@ const items: Item[] = [
     guid: `${SITE}/#release-1`,
     link: `${SITE}/`,
     date: new Date("2026-04-01").toUTCString(),
-    zh: { title: "GPT-Image-2 工具站 上线", desc: "在线调用 gpt-image-2 接口，支持自定义端点、参数与分享链接。" },
-    en: { title: "GPT-Image-2 Tools launched", desc: "Online playground for gpt-image-2 with custom endpoint, params and shareable links." },
+    zh: {
+      title: "GPT-Image-2 工具站 上线",
+      desc: "在线调用 gpt-image-2 接口，支持自定义端点、参数与分享链接。",
+    },
+    en: {
+      title: "GPT-Image-2 Tools launched",
+      desc: "Online playground for gpt-image-2 with custom endpoint, params and shareable links.",
+    },
   },
   {
     guid: `${SITE}/#release-i18n`,
     link: `${SITE}/`,
     date: new Date("2026-04-29").toUTCString(),
-    zh: { title: "支持中英多语言与本地持久化", desc: "新增中文 / English 切换，配置与语言均持久化到本地存储，并可通过 URL 参数携带。" },
-    en: { title: "Bilingual support and persistence", desc: "Added Chinese / English switching. Settings and language persist in localStorage and can be carried via URL params." },
+    zh: {
+      title: "支持中英多语言与本地持久化",
+      desc: "新增中文 / English 切换，配置与语言均持久化到本地存储，并可通过 URL 参数携带。",
+    },
+    en: {
+      title: "Bilingual support and persistence",
+      desc: "Added Chinese / English switching. Settings and language persist in localStorage and can be carried via URL params.",
+    },
   },
   {
     guid: `${SITE}/prompts#release`,
     link: `${SITE}/prompts`,
     date: new Date("2026-04-29").toUTCString(),
-    zh: { title: "新增提示词广场 / Prompt Plaza", desc: "精选高质量 gpt-image-2 prompt，按分类浏览，一键复用到 Playground。" },
-    en: { title: "New: Prompt Plaza", desc: "Curated high-quality prompts for gpt-image-2 by category, with one-click reuse in the Playground." },
+    zh: {
+      title: "新增提示词广场 / Prompt Plaza",
+      desc: "精选高质量 gpt-image-2 prompt，按分类浏览，一键复用到 Playground。",
+    },
+    en: {
+      title: "New: Prompt Plaza",
+      desc: "Curated high-quality prompts for gpt-image-2 by category, with one-click reuse in the Playground.",
+    },
   },
   {
     guid: `${SITE}/gallery#release`,
     link: `${SITE}/gallery`,
     date: new Date("2026-04-29").toUTCString(),
-    zh: { title: "新增素材广场 / Asset Gallery", desc: "示例图像 + 背后的 prompt 与参数，一键复用生成。" },
-    en: { title: "New: Asset Gallery", desc: "Showcase images with their underlying prompts and parameters; reuse in one click." },
+    zh: {
+      title: "新增素材广场 / Asset Gallery",
+      desc: "示例图像 + 背后的 prompt 与参数，一键复用生成。",
+    },
+    en: {
+      title: "New: Asset Gallery",
+      desc: "Showcase images with their underlying prompts and parameters; reuse in one click.",
+    },
   },
 ];
 
