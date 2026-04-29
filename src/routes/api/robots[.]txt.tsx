@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-
-const SITE = "https://render-glow-works.lovable.app";
+import { SITE } from "@/lib/seo";
 
 export const Route = createFileRoute("/api/robots.txt")({
   server: {
@@ -8,7 +7,9 @@ export const Route = createFileRoute("/api/robots.txt")({
       GET: () => {
         const body = `User-agent: *
 Allow: /
+Disallow: /api/
 
+Sitemap: ${SITE}/sitemap.xml
 Sitemap: ${SITE}/api/sitemap.xml
 `;
         return new Response(body, {

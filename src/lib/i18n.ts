@@ -53,6 +53,21 @@ const dict = {
     "settings.share": "生成分享链接",
     "settings.save": "保存配置",
     "lang.label": "语言",
+    "nav.home": "Playground",
+    "nav.prompts": "提示词广场",
+    "nav.gallery": "素材广场",
+    "prompts.title": "提示词广场",
+    "prompts.desc": "精选高质量 gpt-image-2 prompt，按分类浏览，一键复用。",
+    "prompts.use": "使用此 Prompt",
+    "prompts.copy": "复制",
+    "prompts.copied": "已复制到剪贴板",
+    "prompts.searchPlaceholder": "搜索 prompt 或标签...",
+    "prompts.allCats": "全部",
+    "gallery.title": "素材广场",
+    "gallery.desc": "示例图像背后的 prompt 与参数，一键复用到 Playground。",
+    "gallery.useThis": "复用此 Prompt",
+    "gallery.viewLarge": "查看大图",
+    "common.empty": "没有匹配的结果",
   },
   en: {
     "app.name": "GPT-Image-2 Tools",
@@ -102,6 +117,21 @@ const dict = {
     "settings.share": "Copy share link",
     "settings.save": "Save",
     "lang.label": "Language",
+    "nav.home": "Playground",
+    "nav.prompts": "Prompts",
+    "nav.gallery": "Gallery",
+    "prompts.title": "Prompt Plaza",
+    "prompts.desc": "Curated high-quality prompts for gpt-image-2 by category. One-click reuse.",
+    "prompts.use": "Use this Prompt",
+    "prompts.copy": "Copy",
+    "prompts.copied": "Copied to clipboard",
+    "prompts.searchPlaceholder": "Search prompt or tag...",
+    "prompts.allCats": "All",
+    "gallery.title": "Asset Gallery",
+    "gallery.desc": "Showcase images with their prompts and parameters. Reuse in one click.",
+    "gallery.useThis": "Use this Prompt",
+    "gallery.viewLarge": "View large",
+    "common.empty": "No matching results",
   },
 } as const;
 
@@ -146,9 +176,18 @@ export function useI18n() {
   }, []);
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-    }
+    if (typeof document === "undefined") return;
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+    // Dynamically swap OG / Twitter image to match current language.
+    const ogPath = `/og-${lang}.png`;
+    const absUrl = `${window.location.origin}${ogPath}`;
+    const setMeta = (selector: string, attr: "content", value: string) => {
+      const el = document.head.querySelector<HTMLMetaElement>(selector);
+      if (el) el.setAttribute(attr, value);
+    };
+    setMeta('meta[property="og:image"]', "content", absUrl);
+    setMeta('meta[name="twitter:image"]', "content", absUrl);
+    setMeta('meta[property="og:locale"]', "content", lang === "zh" ? "zh_CN" : "en_US");
   }, [lang]);
 
   const t = useCallback(
