@@ -1,13 +1,12 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
+import { SITE, getRouteSeo, ogImageFor, VERIFICATION } from "@/lib/seo";
 
 import appCss from "../styles.css?url";
 
-const SITE = "https://render-glow-works.lovable.app";
-const TITLE = "GPT-Image-2 Tools — 在线图像生成 / Online Image Playground";
-const DESC =
-  "在线调用 gpt-image-2 接口生成与解析图像，支持自定义 API、参数、多语言（中/英）与可分享链接。Online playground for the gpt-image-2 image-generation endpoint with custom API, params, i18n and shareable links.";
-const OG_IMAGE = `${SITE}/og.png`;
+const home = getRouteSeo("/");
+const TITLE = `${home.zh.title} / ${home.en.title}`;
+const DESC = `${home.zh.description} ${home.en.description}`;
 
 const JSON_LD = {
   "@context": "https://schema.org",
@@ -16,7 +15,7 @@ const JSON_LD = {
   url: SITE,
   applicationCategory: "DesignApplication",
   operatingSystem: "Web",
-  description: DESC,
+  description: home.en.description,
   inLanguage: ["zh-CN", "en"],
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   creator: { "@type": "Organization", name: "fishxcode.com", url: "https://fishxcode.com" },
@@ -45,22 +44,22 @@ function NotFoundComponent() {
 }
 
 export const Route = createRootRoute({
-  head: () => ({
-    meta: [
+  head: () => {
+    const meta: Array<Record<string, string>> = [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: TITLE },
       { name: "description", content: DESC },
-      { name: "keywords", content: "gpt-image-2, image generation, AI image, fishxcode, OpenAI image, 图像生成, 文生图" },
+      { name: "keywords", content: "gpt-image-2, image generation, AI image, fishxcode, OpenAI image, 图像生成, 文生图, prompt 广场, 素材广场" },
       { name: "author", content: "fishxcode.com" },
-      { name: "robots", content: "index,follow" },
+      { name: "robots", content: "index,follow,max-image-preview:large" },
       { name: "theme-color", content: "#0b0f1a" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "GPT-Image-2 Tools" },
       { property: "og:title", content: TITLE },
       { property: "og:description", content: DESC },
-      { property: "og:url", content: SITE },
-      { property: "og:image", content: OG_IMAGE },
+      { property: "og:url", content: SITE + "/" },
+      { property: "og:image", content: ogImageFor("zh") },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:locale", content: "zh_CN" },
@@ -68,21 +67,31 @@ export const Route = createRootRoute({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESC },
-      { name: "twitter:image", content: OG_IMAGE },
-    ],
-    links: [
-      { rel: "stylesheet", href: appCss },
-      { rel: "canonical", href: SITE + "/" },
-      { rel: "alternate", hrefLang: "zh-CN", href: SITE + "/?lang=zh" },
-      { rel: "alternate", hrefLang: "en", href: SITE + "/?lang=en" },
-      { rel: "alternate", hrefLang: "x-default", href: SITE + "/" },
-      { rel: "alternate", type: "application/rss+xml", title: "GPT-Image-2 Tools RSS", href: SITE + "/api/rss.xml" },
-      { rel: "sitemap", type: "application/xml", href: SITE + "/api/sitemap.xml" },
-    ],
-    scripts: [
-      { type: "application/ld+json", children: JSON.stringify(JSON_LD) },
-    ],
-  }),
+      { name: "twitter:image", content: ogImageFor("zh") },
+    ];
+    if (VERIFICATION.google && !VERIFICATION.google.startsWith("REPLACE_")) {
+      meta.push({ name: "google-site-verification", content: VERIFICATION.google });
+    }
+    if (VERIFICATION.bing && !VERIFICATION.bing.startsWith("REPLACE_")) {
+      meta.push({ name: "msvalidate.01", content: VERIFICATION.bing });
+    }
+    return {
+      meta,
+      links: [
+        { rel: "stylesheet", href: appCss },
+        { rel: "canonical", href: SITE + "/" },
+        { rel: "alternate", hrefLang: "zh-CN", href: SITE + "/?lang=zh" },
+        { rel: "alternate", hrefLang: "en", href: SITE + "/?lang=en" },
+        { rel: "alternate", hrefLang: "x-default", href: SITE + "/" },
+        { rel: "alternate", type: "application/rss+xml", title: "GPT-Image-2 Tools RSS (zh)", href: SITE + "/api/rss.xml?lang=zh" },
+        { rel: "alternate", type: "application/rss+xml", title: "GPT-Image-2 Tools RSS (en)", href: SITE + "/api/rss.xml?lang=en" },
+        { rel: "sitemap", type: "application/xml", href: SITE + "/sitemap.xml" },
+      ],
+      scripts: [
+        { type: "application/ld+json", children: JSON.stringify(JSON_LD) },
+      ],
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
