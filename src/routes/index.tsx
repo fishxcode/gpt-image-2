@@ -4,8 +4,7 @@ import { Sparkles, Loader2, Wand2, AlertCircle, ImageIcon, Zap, ExternalLink, Ke
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { SettingsDialog } from "@/components/SettingsDialog";
-import { LangSwitch } from "@/components/LangSwitch";
+import { SiteHeader, SiteFooter } from "@/components/SiteHeader";
 import { ImageCard } from "@/components/ImageCard";
 import { useConfig } from "@/lib/config-store";
 import { generateImages, type GenerationResult } from "@/lib/image-api";
@@ -42,6 +41,13 @@ function HomePage() {
 
   const configured = !!config.apiKey && !!config.apiUrl;
 
+  // Read ?prompt= from URL on mount (e.g. arriving from /prompts or /gallery)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const p = new URLSearchParams(window.location.search).get("prompt");
+    if (p && p.trim()) setPrompt(p);
+  }, []);
+
   useEffect(() => {
     if (result && resultsRef.current) {
       resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -73,41 +79,9 @@ function HomePage() {
     <div className="min-h-screen relative">
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
 
-      <header className="relative z-10 border-b border-border/40 backdrop-blur-xl bg-background/40">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary blur-xl opacity-50" />
-              <div className="relative h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                <Sparkles className="h-4.5 w-4.5 text-primary-foreground" strokeWidth={2.5} />
-              </div>
-            </div>
-            <div>
-              <h1 className="text-base font-semibold leading-tight">{t("app.name")}</h1>
-              <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground font-mono-tech">
-                {t("app.tagline")}
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <a
-              href="https://fishxcode.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent/20 hover:border-accent/60 transition-colors text-xs font-medium"
-            >
-              <KeyRound className="h-3 w-3" />
-              {t("nav.getKey")}
-              <ExternalLink className="h-3 w-3 opacity-60" />
-            </a>
-            <StatusPill ok={configured} okLabel={t("status.connected")} offLabel={t("status.notConfigured")} />
-            <LangSwitch />
-            <SettingsDialog />
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
-      <main className="relative z-10 max-w-6xl mx-auto px-6 py-10 md:py-16">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-16">
         <div className="text-center mb-10 md:mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-card/40 backdrop-blur mb-5">
             <Zap className="h-3 w-3 text-primary" />
@@ -245,44 +219,10 @@ function HomePage() {
         </div>
       </main>
 
-      <footer className="relative z-10 border-t border-border/30 mt-10">
-        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="text-[10px] text-muted-foreground font-mono-tech uppercase tracking-wider">
-            {t("footer.notice")}
-          </div>
-          <div className="flex items-center gap-4">
-            <a
-              href="/api/rss.xml"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono-tech"
-            >
-              RSS
-            </a>
-            <a
-              href="https://fishxcode.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <span>{t("footer.poweredBy")}</span>
-              <span className="font-mono-tech font-semibold text-gradient">fishxcode.com</span>
-              <ExternalLink className="h-3 w-3 opacity-50 group-hover:opacity-100" />
-            </a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
 
-function StatusPill({ ok, okLabel, offLabel }: { ok: boolean; okLabel: string; offLabel: string }) {
-  return (
-    <div className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] font-mono-tech uppercase tracking-wider ${
-      ok ? "border-primary/40 bg-primary/10 text-primary" : "border-destructive/40 bg-destructive/10 text-destructive"
-    }`}>
-      <span className={`h-1.5 w-1.5 rounded-full ${ok ? "bg-primary" : "bg-destructive"} animate-pulse`} />
-      {ok ? okLabel : offLabel}
-    </div>
-  );
-}
+// Suppress unused import warnings (Sparkles imported for header consistency may be unused now)
+void Sparkles;
