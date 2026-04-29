@@ -5,24 +5,36 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { SettingsDialog } from "@/components/SettingsDialog";
+import { LangSwitch } from "@/components/LangSwitch";
 import { ImageCard } from "@/components/ImageCard";
 import { useConfig } from "@/lib/config-store";
 import { generateImages, type GenerationResult } from "@/lib/image-api";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const PRESET_PROMPTS = [
-  "青年才俊，电影级光影，超清细节，真实质感，体积光，4K，cinematic lighting",
-  "未来主义城市夜景，霓虹灯倒映在湿润街道，赛博朋克风格，超广角",
-  "极简主义产品摄影，柔和阴影，米白色背景，杂志封面级别",
-  "宫崎骏风格手绘场景，山间小屋，晨雾，水彩质感，治愈系",
-];
+const PRESETS = {
+  zh: [
+    "青年才俊，电影级光影，超清细节，真实质感，体积光，4K，cinematic lighting",
+    "未来主义城市夜景，霓虹灯倒映在湿润街道，赛博朋克风格，超广角",
+    "极简主义产品摄影，柔和阴影，米白色背景，杂志封面级别",
+    "宫崎骏风格手绘场景，山间小屋，晨雾，水彩质感，治愈系",
+  ],
+  en: [
+    "A handsome young professional, cinematic lighting, ultra-detailed, realistic, volumetric light, 4K",
+    "Futuristic city at night, neon reflecting on wet streets, cyberpunk, ultra-wide",
+    "Minimalist product photography, soft shadows, off-white backdrop, magazine cover quality",
+    "Studio Ghibli style hand-drawn scene, mountain cottage, morning mist, watercolor, healing vibe",
+  ],
+};
 
 function HomePage() {
   const config = useConfig();
-  const [prompt, setPrompt] = useState(PRESET_PROMPTS[0]);
+  const { lang, t } = useI18n();
+  const presets = PRESETS[lang];
+  const [prompt, setPrompt] = useState(presets[0]);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<GenerationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +50,7 @@ function HomePage() {
 
   const handleGenerate = async () => {
     if (!configured) {
-      toast.error("请先在设置中配置 API Key");
+      toast.error(t("toast.needKey"));
       return;
     }
     setLoading(true);
@@ -47,7 +59,7 @@ function HomePage() {
     try {
       const r = await generateImages(config, prompt);
       setResult(r);
-      toast.success(`生成完成 · ${r.images.length} 张 · ${(r.durationMs / 1000).toFixed(1)}s`);
+      toast.success(t("toast.success", { n: r.images.length, s: (r.durationMs / 1000).toFixed(1) }));
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setError(msg);
@@ -61,7 +73,6 @@ function HomePage() {
     <div className="min-h-screen relative">
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
 
-      {/* Header */}
       <header className="relative z-10 border-b border-border/40 backdrop-blur-xl bg-background/40">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -72,9 +83,9 @@ function HomePage() {
               </div>
             </div>
             <div>
-              <h1 className="text-base font-semibold leading-tight">GPT-Image-2 Tools</h1>
+              <h1 className="text-base font-semibold leading-tight">{t("app.name")}</h1>
               <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground font-mono-tech">
-                Image Generation Playground
+                {t("app.tagline")}
               </p>
             </div>
           </div>
@@ -86,38 +97,37 @@ function HomePage() {
               className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-accent/40 bg-accent/10 text-accent hover:bg-accent/20 hover:border-accent/60 transition-colors text-xs font-medium"
             >
               <KeyRound className="h-3 w-3" />
-              获取 API Key
+              {t("nav.getKey")}
               <ExternalLink className="h-3 w-3 opacity-60" />
             </a>
-            <StatusPill ok={configured} />
+            <StatusPill ok={configured} okLabel={t("status.connected")} offLabel={t("status.notConfigured")} />
+            <LangSwitch />
             <SettingsDialog />
           </div>
         </div>
       </header>
 
       <main className="relative z-10 max-w-6xl mx-auto px-6 py-10 md:py-16">
-        {/* Hero */}
         <div className="text-center mb-10 md:mb-14">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/60 bg-card/40 backdrop-blur mb-5">
             <Zap className="h-3 w-3 text-primary" />
-            <span className="text-xs text-muted-foreground font-mono-tech">/v1/images/generations</span>
+            <span className="text-xs text-muted-foreground font-mono-tech">{t("app.endpoint")}</span>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05]">
-            把<span className="text-gradient"> 文字 </span>
+            {t("hero.title.a")}<span className="text-gradient"> {t("hero.title.b")} </span>
             <br className="md:hidden" />
-            变成<span className="text-gradient"> 图像 </span>
+            {t("hero.title.c")}<span className="text-gradient"> {t("hero.title.d")} </span>
           </h2>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
-            连接你自己的 gpt-image-2 端点，调用、解析、下载。所有配置都保存在浏览器本地。
+            {t("hero.desc")}
           </p>
         </div>
 
-        {/* Prompt panel */}
         <div className="glass-panel rounded-3xl p-5 md:p-7 glow-primary">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Wand2 className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium">Prompt</span>
+              <span className="text-sm font-medium">{t("panel.prompt")}</span>
             </div>
             <span className="font-mono-tech text-[10px] text-muted-foreground uppercase tracking-wider">
               {config.model} · {config.size} · n={config.n}
@@ -126,12 +136,12 @@ function HomePage() {
           <Textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="描述你想要生成的图像..."
+            placeholder={t("panel.placeholder")}
             className="min-h-[110px] bg-background/40 border-border/60 text-base resize-none focus-visible:ring-primary/60"
           />
 
           <div className="mt-3 flex flex-wrap gap-1.5">
-            {PRESET_PROMPTS.map((p, i) => (
+            {presets.map((p, i) => (
               <button
                 key={i}
                 onClick={() => setPrompt(p)}
@@ -144,7 +154,7 @@ function HomePage() {
 
           <div className="mt-5 flex items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground hidden sm:block">
-              {prompt.length} 字符
+              {t("panel.chars", { n: prompt.length })}
             </p>
             <Button
               onClick={handleGenerate}
@@ -153,21 +163,20 @@ function HomePage() {
               className="ml-auto bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 shadow-lg shadow-primary/30 px-6"
             >
               {loading ? (
-                <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> 生成中…</>
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> {t("panel.generating")}</>
               ) : (
-                <><Sparkles className="h-4 w-4 mr-2" /> 生成图像</>
+                <><Sparkles className="h-4 w-4 mr-2" /> {t("panel.generate")}</>
               )}
             </Button>
           </div>
         </div>
 
-        {/* Results */}
         <div ref={resultsRef} className="mt-10 scroll-mt-20">
           {error && (
             <div className="glass-panel rounded-2xl p-4 border-destructive/40 flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-destructive">请求失败</p>
+                <p className="text-sm font-medium text-destructive">{t("result.failed")}</p>
                 <p className="text-xs text-muted-foreground mt-1 font-mono-tech break-all">{error}</p>
               </div>
             </div>
@@ -188,9 +197,9 @@ function HomePage() {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <ImageIcon className="h-4 w-4 text-primary" />
-                  <h3 className="text-sm font-medium">生成结果</h3>
+                  <h3 className="text-sm font-medium">{t("result.title")}</h3>
                   <span className="font-mono-tech text-xs text-muted-foreground">
-                    {result.images.length} 张 · {(result.durationMs / 1000).toFixed(2)}s
+                    {t("result.summary", { n: result.images.length, s: (result.durationMs / 1000).toFixed(2) })}
                   </span>
                 </div>
               </div>
@@ -209,12 +218,8 @@ function HomePage() {
                   <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/30 mb-4">
                     <KeyRound className="h-6 w-6 text-primary" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">还没有 API Key？</h3>
-                  <p className="text-sm text-muted-foreground mb-5">
-                    本工具兼容 <span className="font-mono-tech text-foreground">fishxcode.com</span> 的 gpt-image-2 接口，
-                    <br className="hidden sm:block" />
-                    前往获取 Key 后填入设置即可开始生成。
-                  </p>
+                  <h3 className="text-lg font-semibold mb-2">{t("empty.noKeyTitle")}</h3>
+                  <p className="text-sm text-muted-foreground mb-5">{t("empty.noKeyDesc")}</p>
                   <div className="flex flex-wrap justify-center gap-2">
                     <a
                       href="https://fishxcode.com"
@@ -222,7 +227,7 @@ function HomePage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-accent text-primary-foreground font-medium text-sm hover:opacity-90 shadow-lg shadow-primary/30 transition-opacity"
                     >
-                      前往 fishxcode.com
+                      {t("empty.goFishx")}
                       <ExternalLink className="h-3.5 w-3.5" />
                     </a>
                   </div>
@@ -232,7 +237,7 @@ function HomePage() {
                   <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-card/40 border border-border/40 mb-3">
                     <ImageIcon className="h-6 w-6 opacity-50" />
                   </div>
-                  <p className="text-sm">输入 prompt 开始你的第一次生成</p>
+                  <p className="text-sm">{t("empty.firstHint")}</p>
                 </div>
               )}
             </div>
@@ -243,31 +248,41 @@ function HomePage() {
       <footer className="relative z-10 border-t border-border/30 mt-10">
         <div className="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-[10px] text-muted-foreground font-mono-tech uppercase tracking-wider">
-            CLIENT-SIDE TOOL · YOUR KEY NEVER LEAVES THE BROWSER
+            {t("footer.notice")}
           </div>
-          <a
-            href="https://fishxcode.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <span>API powered by</span>
-            <span className="font-mono-tech font-semibold text-gradient">fishxcode.com</span>
-            <ExternalLink className="h-3 w-3 opacity-50 group-hover:opacity-100" />
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href="/api/rss.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono-tech"
+            >
+              RSS
+            </a>
+            <a
+              href="https://fishxcode.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <span>{t("footer.poweredBy")}</span>
+              <span className="font-mono-tech font-semibold text-gradient">fishxcode.com</span>
+              <ExternalLink className="h-3 w-3 opacity-50 group-hover:opacity-100" />
+            </a>
+          </div>
         </div>
       </footer>
     </div>
   );
 }
 
-function StatusPill({ ok }: { ok: boolean }) {
+function StatusPill({ ok, okLabel, offLabel }: { ok: boolean; okLabel: string; offLabel: string }) {
   return (
     <div className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[10px] font-mono-tech uppercase tracking-wider ${
       ok ? "border-primary/40 bg-primary/10 text-primary" : "border-destructive/40 bg-destructive/10 text-destructive"
     }`}>
       <span className={`h-1.5 w-1.5 rounded-full ${ok ? "bg-primary" : "bg-destructive"} animate-pulse`} />
-      {ok ? "Connected" : "Not Configured"}
+      {ok ? okLabel : offLabel}
     </div>
   );
 }
