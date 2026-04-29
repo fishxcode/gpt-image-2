@@ -6,7 +6,7 @@ import { useI18n } from "@/lib/i18n";
 import { useConfig } from "@/lib/config-store";
 
 export function SiteHeader() {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
   const config = useConfig();
   const configured = !!config.apiKey && !!config.apiUrl;
   const { pathname } = useLocation();
@@ -20,7 +20,7 @@ export function SiteHeader() {
   return (
     <header className="relative z-10 border-b border-border/40 backdrop-blur-xl bg-background/40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-        <Link to="/" search={{ lang }} className="flex items-center gap-3 shrink-0">
+        <Link to="/" className="flex items-center gap-3 shrink-0">
           <div className="relative">
             <div className="absolute inset-0 bg-primary blur-xl opacity-50" />
             <div className="relative h-9 w-9 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
