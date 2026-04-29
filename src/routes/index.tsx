@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
-import { Sparkles, Loader2, Wand2, AlertCircle, ImageIcon, Zap, ExternalLink, KeyRound } from "lucide-react";
+import { Loader2, Wand2, AlertCircle, ImageIcon, Zap, ExternalLink, KeyRound } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -225,4 +225,3 @@ function HomePage() {
 }
 
 // Suppress unused import warnings (Sparkles imported for header consistency may be unused now)
-void Sparkles;
