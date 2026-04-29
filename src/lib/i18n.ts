@@ -176,9 +176,18 @@ export function useI18n() {
   }, []);
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-    }
+    if (typeof document === "undefined") return;
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+    // Dynamically swap OG / Twitter image to match current language.
+    const ogPath = `/og-${lang}.png`;
+    const absUrl = `${window.location.origin}${ogPath}`;
+    const setMeta = (selector: string, attr: "content", value: string) => {
+      const el = document.head.querySelector<HTMLMetaElement>(selector);
+      if (el) el.setAttribute(attr, value);
+    };
+    setMeta('meta[property="og:image"]', "content", absUrl);
+    setMeta('meta[name="twitter:image"]', "content", absUrl);
+    setMeta('meta[property="og:locale"]', "content", lang === "zh" ? "zh_CN" : "en_US");
   }, [lang]);
 
   const t = useCallback(
