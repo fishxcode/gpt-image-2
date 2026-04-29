@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { DEFAULT_CONFIG, type GenConfig, loadConfig, saveConfig, configFromUrl } from "@/lib/config-store";
+import { useI18n } from "@/lib/i18n";
 
 const SIZES = ["1024x1024", "1536x1024", "1024x1536", "2048x2048", "auto"];
 const QUALITIES = ["low", "medium", "high", "auto"];
@@ -14,6 +15,7 @@ const FORMATS = ["png", "jpeg", "webp"];
 const BACKGROUNDS = ["opaque", "transparent", "auto"];
 
 export function SettingsDialog() {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [showKey, setShowKey] = useState(false);
   const [draft, setDraft] = useState<GenConfig>(DEFAULT_CONFIG);
@@ -28,13 +30,13 @@ export function SettingsDialog() {
 
   const handleSave = () => {
     saveConfig(draft);
-    toast.success("配置已保存");
+    toast.success(t("toast.saved"));
     setOpen(false);
   };
 
   const handleReset = () => {
     setDraft(DEFAULT_CONFIG);
-    toast.info("已恢复默认配置");
+    toast.info(t("toast.reset"));
   };
 
   const buildShareUrl = () => {
@@ -45,7 +47,7 @@ export function SettingsDialog() {
     const url = `${window.location.origin}${window.location.pathname}?${p.toString()}`;
     navigator.clipboard.writeText(url);
     setCopied(true);
-    toast.success("分享链接已复制");
+    toast.success(t("toast.shareCopied"));
     setTimeout(() => setCopied(false), 1500);
   };
 
@@ -59,19 +61,19 @@ export function SettingsDialog() {
       <DialogContent className="max-w-2xl glass-panel border-border/40 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl">
-            <span className="text-gradient">配置中心</span>
+            <span className="text-gradient">{t("settings.title")}</span>
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            API 端点、密钥与生成参数。配置保存在本地，可通过 URL 参数覆盖。
+            {t("settings.desc")}
           </DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-5 py-2">
-          <Section title="接口配置">
-            <Field label="API 地址">
+          <Section title={t("settings.section.api")}>
+            <Field label={t("settings.field.apiUrl")}>
               <Input value={draft.apiUrl} onChange={(e) => update("apiUrl", e.target.value)} placeholder="https://.../v1/images/generations" />
             </Field>
-            <Field label="API Key">
+            <Field label={t("settings.field.apiKey")}>
               <div className="relative">
                 <Input
                   type={showKey ? "text" : "password"}
@@ -91,27 +93,27 @@ export function SettingsDialog() {
             </Field>
           </Section>
 
-          <Section title="生成参数">
+          <Section title={t("settings.section.params")}>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="模型">
+              <Field label={t("settings.field.model")}>
                 <Input value={draft.model} onChange={(e) => update("model", e.target.value)} className="font-mono-tech" />
               </Field>
-              <Field label="数量 n">
+              <Field label={t("settings.field.n")}>
                 <Input type="number" min={1} max={10} value={draft.n} onChange={(e) => update("n", Math.max(1, Number(e.target.value) || 1))} />
               </Field>
-              <Field label="尺寸 size">
+              <Field label={t("settings.field.size")}>
                 <SelectField value={draft.size} onChange={(v) => update("size", v)} options={SIZES} />
               </Field>
-              <Field label="质量 quality">
+              <Field label={t("settings.field.quality")}>
                 <SelectField value={draft.quality} onChange={(v) => update("quality", v)} options={QUALITIES} />
               </Field>
-              <Field label="响应格式">
+              <Field label={t("settings.field.responseFormat")}>
                 <SelectField value={draft.responseFormat} onChange={(v) => update("responseFormat", v as "b64_json" | "url")} options={["b64_json", "url"]} />
               </Field>
-              <Field label="输出格式">
+              <Field label={t("settings.field.outputFormat")}>
                 <SelectField value={draft.outputFormat} onChange={(v) => update("outputFormat", v)} options={FORMATS} />
               </Field>
-              <Field label="背景">
+              <Field label={t("settings.field.background")}>
                 <SelectField value={draft.background} onChange={(v) => update("background", v)} options={BACKGROUNDS} />
               </Field>
             </div>
@@ -120,14 +122,14 @@ export function SettingsDialog() {
 
         <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-border/40">
           <div className="flex gap-2">
-            <Button variant="ghost" size="sm" onClick={handleReset}>恢复默认</Button>
+            <Button variant="ghost" size="sm" onClick={handleReset}>{t("settings.reset")}</Button>
             <Button variant="ghost" size="sm" onClick={buildShareUrl}>
               {copied ? <Check className="h-3.5 w-3.5 mr-1" /> : <Link2 className="h-3.5 w-3.5 mr-1" />}
-              生成分享链接
+              {t("settings.share")}
             </Button>
           </div>
           <Button onClick={handleSave} className="bg-primary text-primary-foreground hover:bg-primary/90">
-            <Save className="h-4 w-4 mr-1.5" /> 保存配置
+            <Save className="h-4 w-4 mr-1.5" /> {t("settings.save")}
           </Button>
         </div>
       </DialogContent>
