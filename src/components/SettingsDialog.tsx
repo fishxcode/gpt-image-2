@@ -27,6 +27,7 @@ import {
   configFromUrl,
 } from "@/lib/config-store";
 import { useI18n } from "@/lib/i18n";
+import { buildShareUrl } from "@/lib/share-url";
 
 const SIZES = ["1024x1024", "1536x1024", "1024x1536", "2048x2048", "auto"];
 const QUALITIES = ["low", "medium", "high", "auto"];
@@ -58,12 +59,10 @@ export function SettingsDialog() {
     toast.info(t("toast.reset"));
   };
 
-  const buildShareUrl = () => {
-    const p = new URLSearchParams();
-    (Object.keys(draft) as Array<keyof GenConfig>).forEach((k) => {
-      p.set(k, String(draft[k]));
-    });
-    const url = `${window.location.origin}${window.location.pathname}?${p.toString()}`;
+  const handleShare = () => {
+    const currentPrompt =
+      document.querySelector<HTMLTextAreaElement>('[data-prompt-input="true"]')?.value ?? "";
+    const url = buildShareUrl(draft, window.location, currentPrompt);
     navigator.clipboard.writeText(url);
     setCopied(true);
     toast.success(t("toast.shareCopied"));
@@ -178,7 +177,7 @@ export function SettingsDialog() {
             <Button variant="ghost" size="sm" onClick={handleReset}>
               {t("settings.reset")}
             </Button>
-            <Button variant="ghost" size="sm" onClick={buildShareUrl}>
+            <Button variant="ghost" size="sm" onClick={handleShare}>
               {copied ? (
                 <Check className="h-3.5 w-3.5 mr-1" />
               ) : (

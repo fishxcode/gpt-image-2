@@ -1,5 +1,4 @@
 // Sample showcase data for the asset gallery.
-// Uses Unsplash images as placeholders — swap with real generations later.
 export type GalleryItem = {
   id: string;
   image: string; // public URL
@@ -11,6 +10,40 @@ export type GalleryItem = {
 };
 
 export const GALLERY: GalleryItem[] = [
+  {
+    id: "g-boyfriend-perspective",
+    image: "/Boyfriend.jpg",
+    promptId: "p-portrait-boyfriend-perspective",
+    size: "1024x1536",
+    quality: "high",
+    zh: {
+      title: "男友视角抓拍",
+      prompt:
+        "Boyfriend's perspective: Girlfriend is drunk, cosplay of Boa Hancock, he cups her face in one hand, a beautiful Korean girl, the camera angle is from top to bottom, her eyes are hazy but full of love, messy hair, the room is dimly lit, amateurish iPhone shot.",
+    },
+    en: {
+      title: "Boyfriend Perspective Snapshot",
+      prompt:
+        "Boyfriend's perspective: Girlfriend is drunk, cosplay of Boa Hancock, he cups her face in one hand, a beautiful Korean girl, the camera angle is from top to bottom, her eyes are hazy but full of love, messy hair, the room is dimly lit, amateurish iPhone shot.",
+    },
+  },
+  {
+    id: "g-subway-street",
+    image: "/subway.jpg",
+    promptId: "p-portrait-subway-street",
+    size: "1024x1536",
+    quality: "high",
+    zh: {
+      title: "地铁街拍人像",
+      prompt:
+        "一张抓拍风格的照片，一位年轻亚洲女性坐在地铁车厢内，不锈钢座椅上，穿着米色紧身短袖上衣和灰色短裙，长直黑发，自然妆容，佩戴耳机，手里拿着手机正在使用，头微微抬起看向镜头，表情略带冷淡和警觉。棕色皮质单肩包放在腿上。地铁内部环境，红色扶杆，车厢门和广告牌背景，现代城市公共交通场景。从隐蔽角度拍摄，左侧有前景遮挡，类似街拍视角，画面略微倾斜。室内柔和冷光，真实光影，浅景深，边缘轻微虚化和运动模糊。街拍摄影，纪实风格，电影感，高度写实，50mm镜头，f1.8，自然色彩。",
+    },
+    en: {
+      title: "Subway Street Portrait",
+      prompt:
+        "A candid street-photography style photo of a young Asian woman sitting on a stainless-steel subway seat, wearing a beige fitted short-sleeve top and gray mini skirt, long straight black hair, natural makeup, headphones, holding and using a phone, head slightly raised toward the camera, expression cool and alert. A brown leather shoulder bag rests on her lap. Subway interior, red handrails, train doors and ad posters in the background, modern urban public transit. Shot from an obscured angle with foreground blocking on the left, street snapshot perspective, slightly tilted frame. Soft cool indoor light, realistic shadows, shallow depth of field, subtle edge blur and motion blur, documentary street photography, cinematic, highly realistic, 50mm lens, f1.8, natural colors.",
+    },
+  },
   {
     id: "g-1",
     image:

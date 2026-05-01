@@ -9,6 +9,7 @@ import {
   Zap,
   ExternalLink,
   KeyRound,
+  Link2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import { ImageCard } from "@/components/ImageCard";
 import { useConfig } from "@/lib/config-store";
 import { generateImages, type GenerationResult } from "@/lib/image-api";
 import { useI18n } from "@/lib/i18n";
+import { buildPromptShareUrl } from "@/lib/share-url";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -25,12 +27,18 @@ export const Route = createFileRoute("/")({
 
 const PRESETS = {
   zh: [
+    "Boyfriend's perspective: Girlfriend is drunk, cosplay of Boa Hancock, he cups her face in one hand, a beautiful Korean girl, the camera angle is from top to bottom, her eyes are hazy but full of love, messy hair, the room is dimly lit, amateurish iPhone shot.",
+    "一张抓拍风格的照片，一位年轻亚洲女性坐在地铁车厢内，不锈钢座椅上，穿着米色紧身短袖上衣和灰色短裙，长直黑发，自然妆容，佩戴耳机，手里拿着手机正在使用，头微微抬起看向镜头，表情略带冷淡和警觉。棕色皮质单肩包放在腿上。地铁内部环境，红色扶杆，车厢门和广告牌背景，现代城市公共交通场景。从隐蔽角度拍摄，左侧有前景遮挡，类似街拍视角，画面略微倾斜。室内柔和冷光，真实光影，浅景深，边缘轻微虚化和运动模糊。街拍摄影，纪实风格，电影感，高度写实，50mm镜头，f1.8，自然色彩。",
+    "效果图，现代室内空间，干净构图，真实材质，柔和自然光，细节清晰，高度写实，建筑可视化，电影感色彩。",
     "青年才俊，电影级光影，超清细节，真实质感，体积光，4K，cinematic lighting",
     "未来主义城市夜景，霓虹灯倒映在湿润街道，赛博朋克风格，超广角",
     "极简主义产品摄影，柔和阴影，米白色背景，杂志封面级别",
     "宫崎骏风格手绘场景，山间小屋，晨雾，水彩质感，治愈系",
   ],
   en: [
+    "Boyfriend's perspective: Girlfriend is drunk, cosplay of Boa Hancock, he cups her face in one hand, a beautiful Korean girl, the camera angle is from top to bottom, her eyes are hazy but full of love, messy hair, the room is dimly lit, amateurish iPhone shot.",
+    "A candid street-photography style photo of a young Asian woman sitting on a stainless-steel subway seat, wearing a beige fitted short-sleeve top and gray mini skirt, long straight black hair, natural makeup, headphones, holding and using a phone, head slightly raised toward the camera, expression cool and alert. A brown leather shoulder bag rests on her lap. Subway interior, red handrails, train doors and ad posters in the background, modern urban public transit. Shot from an obscured angle with foreground blocking on the left, street snapshot perspective, slightly tilted frame. Soft cool indoor light, realistic shadows, shallow depth of field, subtle edge blur and motion blur, documentary street photography, cinematic, highly realistic, 50mm lens, f1.8, natural colors.",
+    "Rendering mockup, modern interior space, clean composition, realistic materials, soft natural light, crisp details, highly realistic architectural visualization, cinematic color.",
     "A handsome young professional, cinematic lighting, ultra-detailed, realistic, volumetric light, 4K",
     "Futuristic city at night, neon reflecting on wet streets, cyberpunk, ultra-wide",
     "Minimalist product photography, soft shadows, off-white backdrop, magazine cover quality",
@@ -49,6 +57,12 @@ function HomePage() {
   const resultsRef = useRef<HTMLDivElement>(null);
 
   const configured = !!config.apiKey && !!config.apiUrl;
+
+  const handleSharePrompt = async () => {
+    const url = buildPromptShareUrl(window.location, prompt);
+    await navigator.clipboard.writeText(url);
+    toast.success(t("toast.shareCopied"));
+  };
 
   // Read ?prompt= from URL on mount (e.g. arriving from /prompts or /gallery)
   useEffect(() => {
@@ -123,6 +137,7 @@ function HomePage() {
             </span>
           </div>
           <Textarea
+            data-prompt-input="true"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder={t("panel.placeholder")}
@@ -146,10 +161,21 @@ function HomePage() {
               {t("panel.chars", { n: prompt.length })}
             </p>
             <Button
+              type="button"
+              variant="outline"
+              onClick={handleSharePrompt}
+              disabled={!prompt.trim()}
+              size="lg"
+              className="ml-auto border-border/60 bg-background/30 hover:bg-card/60"
+            >
+              <Link2 className="h-4 w-4 mr-2" />
+              {t("panel.sharePrompt")}
+            </Button>
+            <Button
               onClick={handleGenerate}
               disabled={loading || !prompt.trim()}
               size="lg"
-              className="ml-auto bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 shadow-lg shadow-primary/30 px-6"
+              className="bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90 shadow-lg shadow-primary/30 px-6"
             >
               {loading ? (
                 <>

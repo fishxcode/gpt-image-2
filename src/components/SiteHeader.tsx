@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Sparkles, KeyRound, ExternalLink } from "lucide-react";
+import { Sparkles, KeyRound, ExternalLink, Github } from "lucide-react";
 import { LangSwitch } from "@/components/LangSwitch";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { useI18n } from "@/lib/i18n";
@@ -142,6 +142,15 @@ export function SiteFooter() {
             className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono-tech"
           >
             Sitemap
+          </a>
+          <a
+            href="https://github.com/fishxcode/gpt-image-2.git"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors font-mono-tech"
+          >
+            <Github className="h-3.5 w-3.5" />
+            GitHub
           </a>
           <a
             href="https://fishxcode.com"

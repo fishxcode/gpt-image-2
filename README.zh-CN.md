@@ -8,6 +8,7 @@ GPT-Image-2 Tools 是一个客户端 AI 图像生成 Playground，面向 `/v1/im
 
 - 主站：[https://gpt-image-2.fishxcode.com](https://gpt-image-2.fishxcode.com)
 - Lovable：[https://fishxcode-gpt-image-2.lovable.app/](https://fishxcode-gpt-image-2.lovable.app/)
+- GitHub：[https://github.com/fishxcode/gpt-image-2.git](https://github.com/fishxcode/gpt-image-2.git)
 
 ## 功能
 
@@ -91,7 +92,7 @@ npm run format
 
 配置会通过 `localStorage` 保存在浏览器本地。URL 参数可以临时覆盖已保存配置，除非在界面中保存，否则不会持久化。
 
-支持的 URL 参数包括 `apiUrl`、`apiKey`、`model`、`n`、`size`、`quality`、`responseFormat`、`background` 与 `outputFormat`。
+支持的 URL 参数包括 `apiUrl`、`apiKey`、`model`、`n`、`size`、`quality`、`responseFormat`、`background`、`outputFormat` 与 `prompt`。
 
 请避免分享包含真实 API Key 的 URL。
 

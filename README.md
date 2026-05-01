@@ -8,6 +8,7 @@ GPT-Image-2 Tools is a client-side AI image generation playground for the `/v1/i
 
 - Primary: [https://gpt-image-2.fishxcode.com](https://gpt-image-2.fishxcode.com)
 - Lovable: [https://fishxcode-gpt-image-2.lovable.app/](https://fishxcode-gpt-image-2.lovable.app/)
+- GitHub: [https://github.com/fishxcode/gpt-image-2.git](https://github.com/fishxcode/gpt-image-2.git)
 
 ## Features
 
@@ -91,7 +92,7 @@ Open Settings in the app to configure:
 
 Settings are stored in the browser with `localStorage`. URL parameters can temporarily override saved settings without persisting them until saved in the UI.
 
-Supported URL parameters include `apiUrl`, `apiKey`, `model`, `n`, `size`, `quality`, `responseFormat`, `background`, and `outputFormat`.
+Supported URL parameters include `apiUrl`, `apiKey`, `model`, `n`, `size`, `quality`, `responseFormat`, `background`, `outputFormat`, and `prompt`.
 
 Avoid sharing URLs that contain real API keys.
 
